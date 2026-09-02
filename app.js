@@ -5,7 +5,7 @@ var allEvidence = [];
 var filteredEvidence = [];
 var selectedEvidence = null;
 var bookmarks = [];
-var currentPage = "dashboard";
+var currentPage = "dashboard"; 
 
 var allPeople = [];
 var allLocations = [];
