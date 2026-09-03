@@ -1,7 +1,6 @@
 import {loadBookmarksFromStorage, loadNotesFromStorage, loadNoteAsync} from "/localStorageHelpers.js";
 import {setupEventListeners} from "/eventListenerSetup.js";
-import {loadAllData} from "/dataLoading.js";
-import {handleHashChange, navigateTo} from "/navigation.js";
+import loadAllData from "/dataLoading.js";
 
 // ---------------------------------------------------------------------
 // INIT

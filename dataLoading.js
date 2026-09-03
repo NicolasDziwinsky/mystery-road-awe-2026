@@ -86,7 +86,7 @@ function loadTimelineData() {
     });
 }
 
-export function loadAllData() {
+export default function loadAllData() {
   showLoadingOverlay("Loading case file…");
   state.loadingStepsRemaining = 2;
   return loadCorePeopleAndLocations().then(function () {
