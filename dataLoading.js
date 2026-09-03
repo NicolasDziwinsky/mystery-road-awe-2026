@@ -56,7 +56,7 @@ function loadEvidenceData() {
     .then(function (data) {
       state.allEvidence = data;
       applyStoredBookmarkFlags();
-      state.filteredEvidence = state.allEvidence; 
+      state.filteredEvidence = [...state.allEvidence];
       renderDashboard();
       populateAllDropdowns();
       if (state.currentPage === "evidence") renderEvidenceList();

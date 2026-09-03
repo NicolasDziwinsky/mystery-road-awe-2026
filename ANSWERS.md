@@ -24,3 +24,18 @@ Why won't `type="module"` scripts run at all if you open `index.html` directly f
     ES Modules are also restricted by the browser when loaded in a file:// context for security reasons.
     So it would be technically possible to run ES modules locally without a Server, but for security reasons it is restricted, because the browser neets to run it with browser security rules and mime type rules
 
+
+Demo 2 — Bug hunt: a mutation/reference bug
+
+    Steps for reproduction: Change the filter inside the evidence view -> changes filtering of the evidence inside the workspace view
+
+Hypothesis (noted down in Obsidian while working):
+    Hypothesis: the handleSortChange function may change the state in an unwanted way OR the workspace takes part of the state in a way that is unwanted OR the workspace references the evidence list, when it should be copying it.
+
+Didnt find anything that breaks
+
+Difference Referency and Copy:
+    A reference is a variable that references the same value in memory, so changes to one are visible at the other one
+    A copy does not share memory space and is completely seperate
+
+I wrote down my chain of thought inside obsidian, and i guess i could have found the bug by just following the change in systemstate. But with my knowledge from 20 minutes ago i could not have figured it out. 

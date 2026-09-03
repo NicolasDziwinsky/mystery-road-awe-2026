@@ -16,3 +16,23 @@ Exercise 1
         (Had to remove part of the fix in eventListenerSetup that fixed a bug not yet to be fixed)
 
 2. 
+    Inside dataLoading.js
+
+    function loadEvidenceData() {
+  fetch("data/evidence.json")
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      state.allEvidence = data;
+      applyStoredBookmarkFlags();
+      state.filteredEvidence = [...state.allEvidence]; <--- instead of state.filteredEvidence = state.allEvidence;
+      renderDashboard();
+      populateAllDropdowns();
+      if (state.currentPage === "evidence") renderEvidenceList();
+    })
+    .catch(function (err) {
+      console.error("Failed to load evidence.json", err);
+      alert("Evidence could not be loaded. Some views may be incomplete.");
+    });
+}
