@@ -13,4 +13,6 @@ Exercise 1
         -changed the onclick function for the nav buttons to use navigate to
         -exposed multiple functions inside the modules for inline functions inside the html file
 
+        (Had to remove part of the fix in eventListenerSetup that fixed a bug not yet to be fixed)
+
 2. 
