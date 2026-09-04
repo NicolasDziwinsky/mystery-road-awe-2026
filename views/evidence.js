@@ -330,9 +330,3 @@ function saveCurrentNote() {
   if (preview) preview.innerHTML = text; // unsafe on purpose, see above
 }
 
-// Expose functions used by inline handlers / dynamic HTML
-window.handleSortChange = handleSortChange;
-window.closeEvidenceDetail = closeEvidenceDetail;
-window.saveCurrentNote = saveCurrentNote;
-window.renderEvidenceList = renderEvidenceList;
-window.openEvidenceDetail = openEvidenceDetail;
