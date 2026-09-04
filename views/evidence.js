@@ -2,7 +2,7 @@ import { state } from "/data.js";
 import { populateTimelineDropdowns } from "/views/timeline.js";
 import { populateHypothesisDropdowns } from "/views/workspace.js";
 import {evidenceMentionsPerson, getStatusBadgeClass, getRelevanceBadgeClass, formatDate, findEvidenceById, findPersonById, findLocationById} from "/lookupHelpers.js";
-import { saveNoteForEvidence, loadNoteForEvidence } from "/localStorageHelpers.js";
+import { saveNoteForEvidence, loadNoteForEvidence, saveBookmarksToStorage} from "/localStorageHelpers.js";
 
 // ---------------------------------------------------------------------
 // EVIDENCE CATALOGUE
@@ -146,11 +146,11 @@ function handleBookmarkClick(evidenceId) {
   var ev = findEvidenceById(evidenceId);
   if (!ev) return;
 
-  if (bookmarks.indexOf(evidenceId) === -1) {
-    bookmarks.push(evidenceId);
+  if (state.bookmarks.indexOf(evidenceId) === -1) {
+    state.bookmarks.push(evidenceId);
     ev.bookmarked = true;
   } else {
-    bookmarks = bookmarks.filter(function (id) {
+    state.bookmarks = state.bookmarks.filter(function (id) {
       return id !== evidenceId;
     });
     ev.bookmarked = false;
