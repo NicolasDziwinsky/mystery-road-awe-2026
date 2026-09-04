@@ -44,3 +44,28 @@ Exercise 1
 
 4. 
     Change the i inside the loop from var to let inside eventListenerSetup on line 12
+
+5. 
+  Bug 1: **-Infinite Loading Evidence**
+	-Happens every Time, no way of going around it
+	-Show evidence list properly, only loading evidence is shown
+	Problems found:
+	1.state.evidenceViewLoading never gets changed to false
+	fix: just turned it to true, nothing breaks
+
+Bug 2: -Review Process show percent correctly one some of the time?
+	-When setting the status to reviewed, it only shows the percent correctly on the inital render of the dashboard view, then the percentage is set in stone
+	-I guess it just has to rerender everytime the view is changed?
+	-fix: removed state.viewRendered.dashboard = true; inside navigation.js to rerender it every time
+
+Bug 3: onChange handleSortChange not defined, sort change does not work
+	- i removed the inline html function call for onChange
+	- i added a event listener for renderEvidenceList for onChange for the filter
+	- i removed renderEvidenceList() from the handleSortChange() function
+	- i added handleSortChange() just before the return statement of getFilteredEvidence
+
+Bug 4: renderEvidenceList is not defined when changing the filter status, it is a silent error
+	-Fix: removed the setAttribute inside the eventListenerSetup
+
+Bug 5: timeline cards show object object as location
+	-Fix: added .name to evtLoc on line 68 inside timeline.js
