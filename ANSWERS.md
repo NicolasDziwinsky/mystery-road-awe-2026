@@ -58,3 +58,29 @@ Answer:
     While the evidence Fetch is still Pending, loadAllData() (which called loadAllEvidence) did not wait for loadEvidenceData. This caused handleHashChange() to be called before the state was properly loaded, causing the number in the person view to be wrongly displayed.
 
     It was visible through seeing how the people page behaves if i switch into it from another view before the people cards were rendered, and by checking the promise chain.
+
+Demo 4
+
+Task 3
+
+The Bug happens after switching views when pressing buttons in the header.
+The Output:
+	Uncaught TypeError: can't access property "getAttribute", navButtons[i] is undefined
+	    setupEventListeners http://localhost:3000/eventListenerSetup.js:14
+	    setupEventListeners http://localhost:3000/eventListenerSetup.js:13
+	    initApp http://localhost:3000/app.js:12
+	    EventListener.handleEvent* http://localhost:3000/app.js:21
+	eventListenerSetup.js:14:24
+	    setupEventListeners http://localhost:3000/eventListenerSetup.js:14
+	    (Async: EventListener.handleEvent)
+	    setupEventListeners http://localhost:3000/eventListenerSetup.js:13
+	    initApp http://localhost:3000/app.js:12
+	    (Async: EventListener.handleEvent)
+	    <anonymous> http://localhost:3000/app.js:21
+
+Line responsible: var targetView = navButtons[i].getAttribute("data-view");
+
+Fix: Change the i inside the loop from var to let
+Why?: Because var is function scoped, and let is block scoped, so each iteration gets its own i (block scoped binding instead of function scoped binding)
+
+I did not notice the bug before looking in the console
