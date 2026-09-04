@@ -1,5 +1,5 @@
 import {handleHashChange, navigateTo} from "/navigation.js";
-import {handleSearchInput, renderEvidenceList, clearFilters} from "/views/evidence.js";
+import {handleSearchInput, renderEvidenceList, clearFilters, handleSortChange} from "/views/evidence.js";
 import {renderTimeline} from "/views/timeline.js";
 // ---------------------------------------------------------------------
 // EVENT LISTENER SETUP
@@ -23,9 +23,9 @@ export function setupEventListeners() {
   document.getElementById("filterLocation").addEventListener("change", renderEvidenceList);
 
   document.getElementById("filterStatus").addEventListener("change", renderEvidenceList);
-  document.getElementById("filterStatus").setAttribute("onchange", "renderEvidenceList()");
 
   document.getElementById("filterRelevance").addEventListener("change", renderEvidenceList);
+  document.getElementById("sortEvidence").addEventListener("change", renderEvidenceList);
 
   document.getElementById("clearFiltersBtn").addEventListener("click", clearFilters);
 

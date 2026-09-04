@@ -72,6 +72,7 @@ function getFilteredEvidence() {
   }
 
   state.filteredEvidence = results;
+  handleSortChange(); // sort the filtered results according to the current sort selection
   return results;
 }
 
@@ -165,7 +166,8 @@ export function applyStoredBookmarkFlags() {
   }
 }
 
-function handleSortChange() {
+export function handleSortChange() {
+  console.log("Sorting evidence list...");
   var sortValue = document.getElementById("sortEvidence").value;
 
   if (sortValue === "title-asc") {
@@ -185,7 +187,6 @@ function handleSortChange() {
       return new Date(b.timestamp) - new Date(a.timestamp);
     });
   }
-  renderEvidenceList();
 }
 
 export function clearFilters() {
