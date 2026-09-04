@@ -61,7 +61,6 @@ Answer:
 
 Demo 4
 
-Task 3
 
 The Bug happens after switching views when pressing buttons in the header.
 The Output:
@@ -84,3 +83,11 @@ Fix: Change the i inside the loop from var to let
 Why?: Because var is function scoped, and let is block scoped, so each iteration gets its own i (block scoped binding instead of function scoped binding)
 
 I did not notice the bug before looking in the console
+
+
+Demo 5
+
+I chose bug 2 (-Review Process show percent correctly one some of the time?)
+To show the percentage correctly, one had to reload the page, set one evidence to reviewed, and then go to the dashboard view and load it the first time. The percentage shown at that point would be locked down
+
+When i fixed bug 3 (onChange handleSortChange not defined) i fixed the inital bug (the not defined part). Then it got revealed that the whole handleSortChange function does not work as intended, because it calls renderEvidenceList() after it sortet the evidenceList, reverting all the sorting it did.
