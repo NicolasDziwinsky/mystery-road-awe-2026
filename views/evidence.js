@@ -221,7 +221,7 @@ export function handleSearchInput(event) {
 // EVIDENCE DETAIL
 // ---------------------------------------------------------------------
 
-function openEvidenceDetail(evidenceId) {
+export function openEvidenceDetail(evidenceId) {
   var ev = findEvidenceById(evidenceId);
   if (!ev) return;
   state.selectedEvidence = ev;

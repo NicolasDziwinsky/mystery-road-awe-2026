@@ -1,5 +1,6 @@
 import { state } from "/data.js";
 import { formatDate, findLocationById, findEvidenceById } from "/lookupHelpers.js";
+import { openEvidenceDetail } from "/views/evidence.js";
 // ---------------------------------------------------------------------
 // TIMELINE
 // ---------------------------------------------------------------------
