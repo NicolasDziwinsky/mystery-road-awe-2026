@@ -1,6 +1,7 @@
 import {loadBookmarksFromStorage, loadNotesFromStorage, loadNoteAsync} from "/localStorageHelpers.js";
 import {setupEventListeners} from "/eventListenerSetup.js";
 import loadAllData from "/dataLoading.js";
+import {saveCurrentNote} from "/views/evidence.js";
 
 // ---------------------------------------------------------------------
 // INIT
@@ -20,3 +21,4 @@ function initApp() {
 
 window.addEventListener("DOMContentLoaded", initApp);
 window.addEventListener("hashchange", handleHashChange);
+window.saveCurrentNote = saveCurrentNote;

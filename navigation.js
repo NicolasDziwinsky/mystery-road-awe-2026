@@ -38,7 +38,7 @@ export function handleHashChange() {
 
   if (hash === "dashboard" && !state.viewRendered.dashboard) {
     renderDashboard();
-    state.viewRendered.dashboard = true;
+
   } else if (hash === "evidence" && !state.viewRendered.evidence) {
     renderEvidenceList();
     state.viewRendered.evidence = true;

@@ -80,11 +80,13 @@ export function renderEvidenceList() {
   if (!container) return;
 
   var loadingIndicator = document.getElementById("evidenceLoadingIndicator");
+  state.evidenceViewLoading = false;
   if (state.evidenceViewLoading) {
     if (loadingIndicator) loadingIndicator.classList.remove("hidden");
     container.innerHTML = "";
     return;
   }
+  
   if (loadingIndicator) loadingIndicator.classList.add("hidden");
 
   var results = getFilteredEvidence();
@@ -104,7 +106,7 @@ export function renderEvidenceList() {
 
 
 function renderEvidenceCardHTML(ev) {
-  var isBookmarked = bookmarks.indexOf(ev.id) !== -1;
+  var isBookmarked = state.bookmarks.indexOf(ev.id) !== -1;
   var html = '<div class="evidence-card" data-id="' + ev.id + '">';
   html += '<button class="bookmark-btn ' + (isBookmarked ? "active" : "") + '" data-action="bookmark" data-id="' + ev.id + '" aria-label="Toggle bookmark for ' + ev.title + '"><span class="bookmark-icon">' + (isBookmarked ? "★" : "☆") + "</span></button>";
   html += "<h3>" + ev.title + "</h3>";
@@ -320,7 +322,7 @@ function statusOptionHTML(current, value, label) {
   return '<option value="' + value + '"' + selected + ">" + label + "</option>";
 }
 
-function saveCurrentNote() {
+export function saveCurrentNote() {
   var textarea = document.getElementById("evidenceNoteInput");
   if (!textarea) return;
   var evidenceId = textarea.getAttribute("data-evidence-id"); // note id is read back off the DOM
