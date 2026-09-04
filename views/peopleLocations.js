@@ -1,5 +1,6 @@
 import { state } from "/data.js";
 import {evidenceMentionsPerson} from "/lookupHelpers.js";
+import { renderEvidenceList } from "/views/evidence.js";
 // ---------------------------------------------------------------------
 // PEOPLE & LOCATIONS
 // ---------------------------------------------------------------------
