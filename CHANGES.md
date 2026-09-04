@@ -36,3 +36,9 @@ Exercise 1
       alert("Evidence could not be loaded. Some views may be incomplete.");
     });
 }
+
+3. 
+    Fix: Two Changes are necessary
+    1. Return Promise.all for loadEvidenceData and loadTimelineData so App.js only continues when both are finished.
+    2. add return to the outer most fetch inside loadEvidenceData like in loadTimelineData so it returns its promise
+

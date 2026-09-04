@@ -39,3 +39,22 @@ Difference Referency and Copy:
     A copy does not share memory space and is completely seperate
 
 I wrote down my chain of thought inside obsidian, and i guess i could have found the bug by just following the change in systemstate. But with my knowledge from 20 minutes ago i could not have figured it out. 
+
+Demo 3
+
+Steps: Enter the People View and reload the page, the number of evidence is going to be zero.
+
+Hypothesis: 
+    When i reload the page while in the People View, it fetches the evidence data (which is needed to display the number correctly), but the people cards get rendered before the fetch is done. This can be seen when reloading the page on a different view (which causes the people not to render yet), then switching to the people view. The numbers are displayed correctly, because the fetch could happen before the people got rendered
+
+Conformation: 
+    Inside App.js, loadAllData() gets called and waits for a promise to start handleHashChange(). So the promise probably finishes earlier than expected.
+
+    Inside loadAllData(), the function loadCorePeopleAndLocations() gets called, when it is done it calls loadEvidenceData and loadTimelineData, but App.js is not waiting for those two to finish, which causes the bug
+
+Answer:
+    The Bug revolves around loadEvidenceData(), which fetches evidence.json
+    The fetch returns a promise, and stores the evidence data in state when the request succeeds.
+    While the evidence Fetch is still Pending, loadAllData() (which called loadAllEvidence) did not wait for loadEvidenceData. This caused handleHashChange() to be called before the state was properly loaded, causing the number in the person view to be wrongly displayed.
+
+    It was visible through seeing how the people page behaves if i switch into it from another view before the people cards were rendered, and by checking the promise chain.

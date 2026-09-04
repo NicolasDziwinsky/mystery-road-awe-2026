@@ -49,7 +49,7 @@ function loadCorePeopleAndLocations() {
 }
 
 function loadEvidenceData() {
-  fetch("data/evidence.json")
+  return fetch("data/evidence.json")
     .then(function (res) {
       return res.json();
     })
@@ -64,7 +64,7 @@ function loadEvidenceData() {
     .catch(function (err) {
       console.error("Failed to load evidence.json", err);
       alert("Evidence could not be loaded. Some views may be incomplete.");
-    });
+    })
 }
 
 function loadTimelineData() {
@@ -89,8 +89,11 @@ function loadTimelineData() {
 export default function loadAllData() {
   showLoadingOverlay("Loading case file…");
   state.loadingStepsRemaining = 2;
+  
   return loadCorePeopleAndLocations().then(function () {
-    loadEvidenceData();
-    loadTimelineData();
+    return Promise.all([
+      loadEvidenceData(),
+      loadTimelineData()
+    ]);
   });
 }
