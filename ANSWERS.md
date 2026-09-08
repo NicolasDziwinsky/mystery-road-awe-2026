@@ -91,3 +91,49 @@ I chose bug 2 (-Review Process show percent correctly one some of the time?)
 To show the percentage correctly, one had to reload the page, set one evidence to reviewed, and then go to the dashboard view and load it the first time. The percentage shown at that point would be locked down
 
 When i fixed bug 3 (onChange handleSortChange not defined) i fixed the inital bug (the not defined part). Then it got revealed that the whole handleSortChange function does not work as intended, because it calls renderEvidenceList() after it sortet the evidenceList, reverting all the sorting it did.
+
+Demo 6
+
+Step over executes a function call without entering the function, while Step into enters the called function. In this app, stepping over getFilteredEvidence() would be useful if I only wanted to inspect the returned results. Stepping into it is better when investigating why the filtered evidence array has unexpected contents.
+
+Call stack:
+The call stack shows the chain of functions that led to the current line. In this app it helped establish that handleSortChange() called renderEvidenceList(), which then called getFilteredEvidence(). That showed me where the sorted array was subsequently being replaced.
+
+Conditional breakpoint:
+A conditional breakpoint pauses only when a specified expression is true. For example, i === 5 lets me inspect one particular iteration without manually resuming through every earlier iteration.
+
+DevTools breakpoint vs debugger;:
+A DevTools breakpoint is added externally and doesn't modify the source code. A debugger; statement is written into the source and explicitly causes execution to pause when a debugger is attached. DevTools breakpoints are preferable for temporary investigation; debugger; can be useful when I deliberately want a pause at a particular point during development.
+
+Why console.log wasn't enough:
+console.log can show the value of a variable, but it doesn't let me pause execution and inspect the state between individual operations. With the debugger, I could step through renderEvidenceList() and see that state.evidenceViewLoading was still true, causing the function to take the loading branch and return before rendering the evidence cards. I could also inspect the call stack to determine which function had triggered the render.
+
+Demo 7
+
+console.log vs console.warn vs console.error
+
+console.log() — general debugging/information.
+console.warn() — indicates something potentially problematic; DevTools can filter it separately as a warning.
+console.error() — indicates an error condition and is typically displayed prominently and included in the error log.
+
+Network: Status, Type, Time
+
+For example, if an app's JSON fetch() request shows:
+
+Status: 200
+Type:   fetch
+Time:   120 ms
+
+that means the request succeeded, it was made as a fetch request, and it took approximately 120 ms.
+
+If it returned 404, the server couldn't find the requested resource. Whether the UI crashes, remains empty, shows an error, or falls back to something else depends on the application's fetch() error handling.
+
+LocalStorageKeys
+
+remotion_bookmarks, remotion_hytothesis, remotion_notes
+Uncaught SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data when i change it, because the json parse is encountering symbols it does not expect at the correct places
+
+The Searchbar in athe evidence view shows up first when throttled, then the evidence gets loaded. 
+
+Demo 8
+
