@@ -6,11 +6,11 @@ import {getStatusBadgeClass, formatDate} from "../lookupHelpers.js";
 // ---------------------------------------------------------------------
 
 export function renderDashboard() {
-  var container = document.getElementById("dashboardContent");
+  const container = document.getElementById("dashboardContent");
   if (!container) return;
 
   var reviewedCount = 0;
-  for (var i = 0; i < state.allEvidence.length; i++) {
+  for (let i = 0; i < state.allEvidence.length; i++) {
     if ((state.allEvidence[i].status || "").toLowerCase() === "reviewed") reviewedCount++;
   }
 
@@ -44,7 +44,7 @@ export function renderDashboard() {
   if (recentEvidence.length === 0) {
     html += "<p>No evidence loaded yet.</p>";
   }
-  for (var e = 0; e < recentEvidence.length; e++) {
+  for (let e = 0; e < recentEvidence.length; e++) {
     var ev = recentEvidence[e];
     html += '<div class="mini-list-item"><strong>' + ev.id + "</strong> &mdash; " + ev.title +
       ' <span class="badge ' + getStatusBadgeClass(ev.status) + '">' + ev.status + "</span></div>";
@@ -56,7 +56,7 @@ export function renderDashboard() {
   if (recentTimeline.length === 0) {
     html += "<p>No timeline events loaded yet.</p>";
   }
-  for (var t = 0; t < recentTimeline.length; t++) {
+  for (let t = 0; t < recentTimeline.length; t++) {
     var evt = recentTimeline[t];
     html += '<div class="mini-list-item"><strong>' + formatDate(evt.time) + "</strong><br>" + evt.title + "</div>";
   }

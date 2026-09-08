@@ -21,22 +21,22 @@ function populateEvidenceDropdowns() {
   if (!typeSelect || !personSelect || !locationSelect) return;
 
   var types = [];
-  for (var i = 0; i < state.allEvidence.length; i++) {
+  for (let i = 0; i < state.allEvidence.length; i++) {
     var t = state.allEvidence[i].type.toLowerCase();
     if (types.indexOf(t) === -1) types.push(t);
   }
   typeSelect.innerHTML = '<option value="">All types</option>';
-  for (var ti = 0; ti < types.length; ti++) {
+  for (let ti = 0; ti < types.length; ti++) {
     typeSelect.innerHTML += '<option value="' + types[ti] + '">' + types[ti] + "</option>";
   }
 
   personSelect.innerHTML = '<option value="">All people</option>';
-  for (var p = 0; p < state.allPeople.length; p++) {
+  for (let p = 0; p < state.allPeople.length; p++) {
     personSelect.innerHTML += '<option value="' + state.allPeople[p].id + '">' + state.allPeople[p].name + "</option>";
   }
 
   locationSelect.innerHTML = '<option value="">All locations</option>';
-  for (var l = 0; l < state.allLocations.length; l++) {
+  for (let l = 0; l < state.allLocations.length; l++) {
     locationSelect.innerHTML += '<option value="' + state.allLocations[l].id + '">' + state.allLocations[l].id + " - " + state.allLocations[l].name + "</option>";
   }
 }
@@ -51,7 +51,7 @@ function getFilteredEvidence() {
   var relevanceVal = document.getElementById("filterRelevance").value;
 
   var results = [];
-  for (var i = 0; i < state.allEvidence.length; i++) {
+  for (let i = 0; i < state.allEvidence.length; i++) {
     var item = state.allEvidence[i];
     var matches = true;
 

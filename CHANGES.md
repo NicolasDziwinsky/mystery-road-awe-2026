@@ -69,3 +69,6 @@ Bug 4: renderEvidenceList is not defined when changing the filter status, it is 
 
 Bug 5: timeline cards show object object as location
 	-Fix: added .name to evtLoc on line 68 inside timeline.js
+
+8. 
+Changed a ton of vars to lets or consts

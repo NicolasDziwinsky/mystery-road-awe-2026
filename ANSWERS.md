@@ -137,3 +137,45 @@ The Searchbar in athe evidence view shows up first when throttled, then the evid
 
 Demo 8
 
+var is function-scoped and can be reassigned.
+let is block-scoped and can be reassigned.
+const is block-scoped and cannot be reassigned.
+
+A concrete bug in the original app.js is in the navigation event setup. The code uses var i in a loop and then refers to navButtons[i] inside a click callback:
+
+var navButtons = document.querySelectorAll(".nav-btn");
+
+for (var i = 0; i < navButtons.length; i++) {
+  navButtons[i].addEventListener("click", function () {
+    var targetView = navButtons[i].getAttribute("data-view");
+    console.log("nav clicked:", targetView);
+  });
+}
+
+Because var i is function-scoped, all of the callbacks share the same i. By the time a user clicks a button, the loop has already finished, so i has the final value. This can cause the callback to access the wrong element or undefined.
+
+
+An accidental global happens when code assigns a value to a variable without declaring it:
+
+evidenceCount = 10;
+
+In non-strict-mode JavaScript, this can create a property on the global object instead of producing an immediate error. That makes the variable available globally and can cause hidden dependencies or naming conflicts.
+
+ES modules are always strict mode, so the same mistake does not silently create a global. Instead:
+
+evidenceCount = 10;
+
+throws a ReferenceError because evidenceCount was never declared.
+
+This is safer because the mistake is detected immediately rather than creating hidden global state.
+
+
+One example is the duplicate hashchange event listener. The app registers handleHashChange in setupEventListeners(), but it is also registered again later in the file:
+
+window.addEventListener("hashchange", handleHashChange);
+
+The app can still appear to work because both listeners call the same handler. However, the duplicate registration is still worth refactoring because it makes the event setup harder to understand and creates unnecessary repeated work whenever the hash changes.
+
+The real cost is maintenance and bug risk: someone reading the code may not realize the handler is registered twice, and future changes could make the duplicated behavior cause visible bugs.
+
+A clean version should have each event listener registered in one clear place.

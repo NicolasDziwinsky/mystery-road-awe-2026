@@ -14,7 +14,7 @@ function initApp() {
 
   loadAllData().then(function () {
     handleHashChange();
-    var firstNote = loadNoteAsync("E01");
+    const firstNote = loadNoteAsync("E01");
     console.log("First note preview:", firstNote);
   });
 }

@@ -8,10 +8,10 @@ import {renderTimeline} from "/views/timeline.js";
 export function setupEventListeners() {
   window.addEventListener("hashchange", handleHashChange);
 
-  var navButtons = document.querySelectorAll(".nav-btn");
+  const navButtons = document.querySelectorAll(".nav-btn");
   for (let i = 0; i < navButtons.length; i++) {
     navButtons[i].addEventListener("click", function () {
-      var targetView = navButtons[i].getAttribute("data-view");
+      let targetView = navButtons[i].getAttribute("data-view");
       console.log("nav clicked:", targetView);
     });
   }
