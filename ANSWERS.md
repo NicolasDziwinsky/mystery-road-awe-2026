@@ -251,3 +251,24 @@ const peopleJson = await peopleRes.json();
 will fail because a Promise does not have a .json() method.
 
 Demo 10
+
+Schlechte Funktion für Arrow Function wäre loadNoteAsync()
+
+
+Regular functions get their own this depending on how the function is called.
+
+Arrow functions do not create their own this. They inherit this from the surrounding scope.
+
+
+Arrow functions:
+
+cannot be called with new
+
+don't have their own arguments object
+
+No. None of the functions converted used new or their own arguments.
+
+All my functions were declared before they were called
+
+
+Use regular function declarations for named, reusable functions; use arrow functions for callbacks and short functions that don't need their own this.

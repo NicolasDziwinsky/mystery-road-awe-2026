@@ -76,3 +76,6 @@ Changed a ton of vars to lets or consts
 9. 
 Changed loadCorePeopleAndLocations() to use async and wait
 Changed loadTimelineData() to use async and await
+
+10. 
+changes showLoadingOverlay and hideLoadingStep into Arrow Functions

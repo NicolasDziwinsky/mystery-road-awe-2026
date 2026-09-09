@@ -9,20 +9,20 @@ import { formatDate } from "/lookupHelpers.js";
 // DATA LOADING
 // ---------------------------------------------------------------------
 
-function showLoadingOverlay(msg) {
+const showLoadingOverlay = (msg) => {
   const overlay = document.getElementById("loadingOverlay");
   const text = document.getElementById("loadingText");
   if (text) text.textContent = msg;
   if (overlay) overlay.classList.remove("hidden");
-}
+};
 
-function hideLoadingStep() {
+const hideLoadingStep = () => {
   state.loadingStepsRemaining--;
   if (state.loadingStepsRemaining <= 0) {
     const overlay = document.getElementById("loadingOverlay");
     if (overlay) overlay.classList.add("hidden");
   }
-}
+};
 
 async function loadCorePeopleAndLocations() {
   const caseRes = await fetch("data/case.json");
