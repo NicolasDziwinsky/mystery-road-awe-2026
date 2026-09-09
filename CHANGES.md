@@ -72,3 +72,7 @@ Bug 5: timeline cards show object object as location
 
 8. 
 Changed a ton of vars to lets or consts
+
+9. 
+Changed loadCorePeopleAndLocations() to use async and wait
+Changed loadTimelineData() to use async and await

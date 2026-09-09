@@ -179,3 +179,75 @@ The app can still appear to work because both listeners call the same handler. H
 The real cost is maintenance and bug risk: someone reading the code may not realize the handler is registered twice, and future changes could make the duplicated behavior cause visible bugs.
 
 A clean version should have each event listener registered in one clear place.
+
+Demo 9
+
+The deepest chain is loadCorePeopleAndLocations():
+It is six nested .then() callbacks deep. Each stage must complete successfully before the next request begins:
+
+1. Fetch case.json
+2. Parse it
+3. Fetch people.json
+4. Parse it
+5. Fetch locations.json
+6. Parse it
+7. Update state and render
+
+So this is deliberately sequential, not parallel.
+
+Why is the nested .then() version harder to reason about?
+
+The nested version spreads the sequence across multiple callback functions. To understand what happens next, you repeatedly have to move inward through another .then():
+
+The async/await version expresses the same asynchronous sequence in top-to-bottom order
+
+They run with equivalent Promise behavior, but async/await makes the dependencies between steps easier to see because the code visually resembles synchronous code.
+
+What does await actually do? What is the rest of the program doing?
+
+await pauses only the execution of the current async function until the awaited Promise settles.
+
+It does not freeze JavaScript or the whole application. While this function is waiting:
+
+- the browser can continue processing events
+- other JavaScript tasks can run
+- rendering can occur
+- other Promise callbacks can run
+- network requests can continue
+
+What happens if you call .then() on the result of your refactored function?
+
+it would still return a Promise { pending }, but it would return the value undefined
+
+What is the async/await equivalent of .catch()
+
+catch (err) { console.log("timeline load error", err); 
+If it fails without a catch, the function returns a failed catch statement, which can still be handled by the calling function
+
+Is async/await faster than .then()?
+
+these things remain unchanged:
+
+- the same files are fetched,
+- the requests still happen sequentially,
+- each request still waits for the previous step,
+- the same JSON parsing occurs,
+- the same state updates and rendering occur.
+
+What changes is primarily how the asynchronous control flow is expressed.
+So the speed does not really change
+
+What happens if you remove one await
+
+const peopleRes = await fetch("data/people.json");
+to
+const peopleRes = fetch("data/people.json");
+
+Now peopleRes is a Promise, not a Response
+The next line:
+
+const peopleJson = await peopleRes.json();
+
+will fail because a Promise does not have a .json() method.
+
+Demo 10
