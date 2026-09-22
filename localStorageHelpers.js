@@ -1,10 +1,13 @@
-import {state} from "/data.js";
+import { state } from "/data.js";
 // ---------------------------------------------------------------------
 // LOCAL STORAGE HELPERS (bookmarks & notes)
 // ---------------------------------------------------------------------
 
 export function saveBookmarksToStorage() {
-  localStorage.setItem(state.STORAGE_KEY_BOOKMARKS, JSON.stringify(state.bookmarks));
+  localStorage.setItem(
+    state.STORAGE_KEY_BOOKMARKS,
+    JSON.stringify(state.bookmarks),
+  );
 }
 
 export function loadBookmarksFromStorage() {
@@ -20,7 +23,10 @@ export function loadBookmarksFromStorage() {
 
 export function saveNoteForEvidence(evidenceId, text) {
   state.notesStore[evidenceId] = text;
-  localStorage.setItem(state.STORAGE_KEY_NOTES, JSON.stringify(state.notesStore));
+  localStorage.setItem(
+    state.STORAGE_KEY_NOTES,
+    JSON.stringify(state.notesStore),
+  );
 }
 
 export function loadNoteForEvidence(evidenceId) {

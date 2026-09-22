@@ -23,7 +23,7 @@ export const state = {
     evidence: false,
     people: false,
     timeline: false,
-    workspace: false
+    workspace: false,
   },
 
   notesStore: {},
@@ -31,5 +31,5 @@ export const state = {
 
   STORAGE_KEY_BOOKMARKS: "remotion_bookmarks",
   STORAGE_KEY_NOTES: "remotion_notes",
-  STORAGE_KEY_HYPOTHESIS: "remotion_hypothesis"
+  STORAGE_KEY_HYPOTHESIS: "remotion_hypothesis",
 };

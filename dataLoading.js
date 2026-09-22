@@ -1,9 +1,12 @@
 import { renderDashboard } from "./views/dashboard.js";
 import { state } from "/data.js";
-import { populateAllDropdowns, applyStoredBookmarkFlags, renderEvidenceList} from "/views/evidence.js";
+import {
+  populateAllDropdowns,
+  applyStoredBookmarkFlags,
+  renderEvidenceList,
+} from "/views/evidence.js";
 import { renderTimeline } from "/views/timeline.js";
 import { formatDate } from "/lookupHelpers.js";
-
 
 // ---------------------------------------------------------------------
 // DATA LOADING
@@ -58,7 +61,7 @@ function loadEvidenceData() {
     .catch(function (err) {
       console.error("Failed to load evidence.json", err);
       alert("Evidence could not be loaded. Some views may be incomplete.");
-    })
+    });
 }
 
 async function loadTimelineData() {
@@ -84,11 +87,8 @@ async function loadTimelineData() {
 export default function loadAllData() {
   showLoadingOverlay("Loading case file…");
   state.loadingStepsRemaining = 2;
-  
+
   return loadCorePeopleAndLocations().then(function () {
-    return Promise.all([
-      loadEvidenceData(),
-      loadTimelineData()
-    ]);
+    return Promise.all([loadEvidenceData(), loadTimelineData()]);
   });
 }

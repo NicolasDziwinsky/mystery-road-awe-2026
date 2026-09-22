@@ -1,5 +1,5 @@
-import {state} from "../data.js";
-import {getStatusBadgeClass, formatDate} from "../lookupHelpers.js";
+import { state } from "../data.js";
+import { getStatusBadgeClass, formatDate } from "../lookupHelpers.js";
 
 // ---------------------------------------------------------------------
 // DASHBOARD
@@ -11,15 +11,22 @@ export function renderDashboard() {
 
   var reviewedCount = 0;
   for (let i = 0; i < state.allEvidence.length; i++) {
-    if ((state.allEvidence[i].status || "").toLowerCase() === "reviewed") reviewedCount++;
+    if ((state.allEvidence[i].status || "").toLowerCase() === "reviewed")
+      reviewedCount++;
   }
 
-  var progressPct = state.allEvidence.length === 0 ? 0 : Math.round((reviewedCount / state.allEvidence.length) * 100);
+  var progressPct =
+    state.allEvidence.length === 0
+      ? 0
+      : Math.round((reviewedCount / state.allEvidence.length) * 100);
 
   var html = "";
   html += '<div class="case-summary-card">';
   html += "<h3>" + (state.caseData.title || "Case") + "</h3>";
-  html += '<p><span class="badge badge-flagged">' + (state.caseData.status || "unknown").toUpperCase() + "</span></p>";
+  html +=
+    '<p><span class="badge badge-flagged">' +
+    (state.caseData.status || "unknown").toUpperCase() +
+    "</span></p>";
   html += "<p>" + (state.caseData.summary || "") + "</p>";
   html += "</div>";
 
@@ -33,7 +40,10 @@ export function renderDashboard() {
 
   html += '<div class="dashboard-panel">';
   html += "<h3>Review progress</h3>";
-  html += '<div class="progress-bar-outer"><div class="progress-bar-inner" style="width:' + progressPct + '%;"></div></div>';
+  html +=
+    '<div class="progress-bar-outer"><div class="progress-bar-inner" style="width:' +
+    progressPct +
+    '%;"></div></div>';
   html += "<p>" + progressPct + "% of evidence reviewed</p>";
   html += "</div>";
 
@@ -46,8 +56,16 @@ export function renderDashboard() {
   }
   for (let e = 0; e < recentEvidence.length; e++) {
     var ev = recentEvidence[e];
-    html += '<div class="mini-list-item"><strong>' + ev.id + "</strong> &mdash; " + ev.title +
-      ' <span class="badge ' + getStatusBadgeClass(ev.status) + '">' + ev.status + "</span></div>";
+    html +=
+      '<div class="mini-list-item"><strong>' +
+      ev.id +
+      "</strong> &mdash; " +
+      ev.title +
+      ' <span class="badge ' +
+      getStatusBadgeClass(ev.status) +
+      '">' +
+      ev.status +
+      "</span></div>";
   }
   html += "</div>";
 
@@ -58,7 +76,12 @@ export function renderDashboard() {
   }
   for (let t = 0; t < recentTimeline.length; t++) {
     var evt = recentTimeline[t];
-    html += '<div class="mini-list-item"><strong>' + formatDate(evt.time) + "</strong><br>" + evt.title + "</div>";
+    html +=
+      '<div class="mini-list-item"><strong>' +
+      formatDate(evt.time) +
+      "</strong><br>" +
+      evt.title +
+      "</div>";
   }
   html += "</div>";
 
@@ -68,5 +91,11 @@ export function renderDashboard() {
 }
 
 export function statCardHTML(value, label) {
-  return '<div class="stat-card"><div class="stat-value">' + value + '</div><div class="stat-label">' + label + "</div></div>";
+  return (
+    '<div class="stat-card"><div class="stat-value">' +
+    value +
+    '</div><div class="stat-label">' +
+    label +
+    "</div></div>"
+  );
 }

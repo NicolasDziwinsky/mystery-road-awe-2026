@@ -16,7 +16,13 @@ export function navigateTo(viewName) {
 
 export function handleHashChange() {
   var hash = window.location.hash.replace("#", "");
-  const validViews = ["dashboard", "evidence", "people", "timeline", "workspace"];
+  const validViews = [
+    "dashboard",
+    "evidence",
+    "people",
+    "timeline",
+    "workspace",
+  ];
   if (validViews.indexOf(hash) === -1) {
     hash = "dashboard";
   }
@@ -38,7 +44,6 @@ export function handleHashChange() {
 
   if (hash === "dashboard" && !state.viewRendered.dashboard) {
     renderDashboard();
-
   } else if (hash === "evidence" && !state.viewRendered.evidence) {
     renderEvidenceList();
     state.viewRendered.evidence = true;
