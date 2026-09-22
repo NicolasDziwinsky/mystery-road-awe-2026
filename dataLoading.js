@@ -25,15 +25,15 @@ const hideLoadingStep = () => {
 };
 
 async function loadCorePeopleAndLocations() {
-  const caseRes = await fetch("data/case.json");
+  const caseRes = await fetch("/data/case.json");
   const caseJson = await caseRes.json();
   state.caseData = caseJson;
 
-  const peopleRes = await fetch("data/people.json");
+  const peopleRes = await fetch("/data/people.json");
   const peopleJson = await peopleRes.json();
   state.allPeople = peopleJson;
 
-  const locationsRes = await fetch("data/locations.json");
+  const locationsRes = await fetch("/data/locations.json");
   const locationsJson = await locationsRes.json();
   state.allLocations = locationsJson;
 
@@ -43,7 +43,7 @@ async function loadCorePeopleAndLocations() {
 }
 
 function loadEvidenceData() {
-  return fetch("data/evidence.json")
+  return fetch("/data/evidence.json")
     .then(function (res) {
       return res.json();
     })
@@ -63,7 +63,7 @@ function loadEvidenceData() {
 
 async function loadTimelineData() {
   try {
-    const res = await fetch("data/timeline.json");
+    const res = await fetch("/data/timeline.json");
     const data = await res.json();
 
     state.allTimeline = data;

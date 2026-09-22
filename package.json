@@ -1,23 +1,23 @@
 {
   "name": "mystery-road-awe-2026",
-  "version": "1.0.0",
-  "description": "Investigate the failure of an AI-assisted rehabilitation robot.",
-  "main": "app.js",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NicolasDziwinsky/mystery-road-awe-2026.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/NicolasDziwinsky/mystery-road-awe-2026/issues"
-  },
-  "homepage": "https://github.com/NicolasDziwinsky/mystery-road-awe-2026#readme",
-  "dependencies": {
-    "dotenv": "^18.0.2"
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.8",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.0"
   }
 }
