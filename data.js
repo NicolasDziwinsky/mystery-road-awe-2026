@@ -2,6 +2,7 @@
 // GLOBAL STATE
 // ---------------------------------------------------------------------
 
+/** @type {import("./types/domain.ts").AppState} */
 export const state = {
   allEvidence: [],
   filteredEvidence: [],
@@ -12,7 +13,7 @@ export const state = {
   allPeople: [],
   allLocations: [],
   allTimeline: [],
-  caseData: {},
+  caseData: null,
 
   currentPeopleTab: "people",
   loadingStepsRemaining: 2,

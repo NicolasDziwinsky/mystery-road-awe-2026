@@ -1,18 +1,33 @@
 import { renderDashboard } from "./views/dashboard.js";
-import { state } from "/data.js";
+import { state } from "./data.js";
 import {
   populateAllDropdowns,
   applyStoredBookmarkFlags,
   renderEvidenceList,
-} from "/views/evidence.js";
-import { renderTimeline } from "/views/timeline.js";
-import { formatDate } from "/lookupHelpers.js";
+} from "./views/evidence.js";
+import { renderTimeline } from "./views/timeline.js";
+import type {
+  CaseRecord,
+  EvidenceRecord,
+  LocationRecord,
+  PersonRecord,
+  TimelineEvent,
+} from "./types/domain.ts";
 
 // ---------------------------------------------------------------------
 // DATA LOADING
 // ---------------------------------------------------------------------
 
-const showLoadingOverlay = (msg) => {
+const fetchJson = async <T>(url: string): Promise<T> => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.status}`);
+  }
+
+  return (await response.json()) as T;
+};
+
+const showLoadingOverlay = (msg: string) => {
   const overlay = document.getElementById("loadingOverlay");
   const text = document.getElementById("loadingText");
   if (text) text.textContent = msg;
@@ -28,17 +43,14 @@ const hideLoadingStep = () => {
 };
 
 async function loadCorePeopleAndLocations() {
-  const caseRes = await fetch("/data/case.json");
-  const caseJson = await caseRes.json();
-  state.caseData = caseJson;
+  const caseData = await fetchJson<CaseRecord>("/data/case.json");
+  state.caseData = caseData;
 
-  const peopleRes = await fetch("/data/people.json");
-  const peopleJson = await peopleRes.json();
-  state.allPeople = peopleJson;
+  const people = await fetchJson<PersonRecord[]>("/data/people.json");
+  state.allPeople = people;
 
-  const locationsRes = await fetch("/data/locations.json");
-  const locationsJson = await locationsRes.json();
-  state.allLocations = locationsJson;
+  const locations = await fetchJson<LocationRecord[]>("/data/locations.json");
+  state.allLocations = locations;
 
   hideLoadingStep();
   renderDashboard();
@@ -46,11 +58,8 @@ async function loadCorePeopleAndLocations() {
 }
 
 function loadEvidenceData() {
-  return fetch("/data/evidence.json")
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
+  return fetchJson<EvidenceRecord[]>("/data/evidence.json")
+    .then((data) => {
       state.allEvidence = data;
       applyStoredBookmarkFlags();
       state.filteredEvidence = [...state.allEvidence];
@@ -58,7 +67,7 @@ function loadEvidenceData() {
       populateAllDropdowns();
       if (state.currentPage === "evidence") renderEvidenceList();
     })
-    .catch(function (err) {
+    .catch((err: unknown) => {
       console.error("Failed to load evidence.json", err);
       alert("Evidence could not be loaded. Some views may be incomplete.");
     });
@@ -66,8 +75,7 @@ function loadEvidenceData() {
 
 async function loadTimelineData() {
   try {
-    const res = await fetch("/data/timeline.json");
-    const data = await res.json();
+    const data = await fetchJson<TimelineEvent[]>("/data/timeline.json");
 
     state.allTimeline = data;
     renderDashboard();
@@ -77,7 +85,7 @@ async function loadTimelineData() {
     }
 
     populateAllDropdowns();
-  } catch (err) {
+  } catch (err: unknown) {
     console.log("timeline load error", err);
   } finally {
     hideLoadingStep();

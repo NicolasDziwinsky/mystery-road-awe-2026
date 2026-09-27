@@ -1,43 +1,30 @@
 import { state } from "./data.js";
+import type {
+  EvidenceRecord,
+  LocationRecord,
+  PersonRecord,
+} from "./types/domain.ts";
 
 // ---------------------------------------------------------------------
 // GENERIC LOOKUP HELPERS
 // ---------------------------------------------------------------------
 
-type EvidenceRecord = {
-  id: string;
-  personIds?: Array<string>;
-  [key: string]: unknown;
-};
-
-type PersonRecord = {
-  id: string;
-  name: string;
-  [key: string]: unknown;
-};
-
-type LocationRecord = {
-  id: string;
-  name: string;
-  [key: string]: unknown;
-};
-
 export function findEvidenceById(id: string): EvidenceRecord | null {
-  for (const item of state.allEvidence as EvidenceRecord[]) {
+  for (const item of state.allEvidence) {
     if (item.id === id) return item;
   }
   return null;
 }
 
 export function findPersonById(id: string): PersonRecord | null {
-  for (const item of state.allPeople as PersonRecord[]) {
+  for (const item of state.allPeople) {
     if (item.id === id) return item;
   }
   return null;
 }
 
 export function findLocationById(id: string): LocationRecord | null {
-  for (const item of state.allLocations as LocationRecord[]) {
+  for (const item of state.allLocations) {
     if (item.id === id) return item;
   }
   return null;
