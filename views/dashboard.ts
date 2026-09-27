@@ -5,29 +5,33 @@ import { getStatusBadgeClass, formatDate } from "../lookupHelpers.js";
 // DASHBOARD
 // ---------------------------------------------------------------------
 
-export function renderDashboard() {
+export function renderDashboard(): void {
   const container = document.getElementById("dashboardContent");
   if (!container) return;
 
-  var reviewedCount = 0;
-  for (let i = 0; i < state.allEvidence.length; i++) {
-    if ((state.allEvidence[i].status || "").toLowerCase() === "reviewed")
-      reviewedCount++;
+  const caseData = state.caseData;
+  const title = caseData?.title ?? "Case";
+  const status = caseData?.status ?? "unknown";
+  const summary = caseData?.summary ?? "";
+
+  let reviewedCount = 0;
+  for (const item of state.allEvidence) {
+    if ((item.status || "").toLowerCase() === "reviewed") reviewedCount++;
   }
 
-  var progressPct =
+  const progressPct =
     state.allEvidence.length === 0
       ? 0
       : Math.round((reviewedCount / state.allEvidence.length) * 100);
 
-  var html = "";
+  let html = "";
   html += '<div class="case-summary-card">';
-  html += "<h3>" + (state.caseData.title || "Case") + "</h3>";
+  html += "<h3>" + title + "</h3>";
   html +=
     '<p><span class="badge badge-flagged">' +
-    (state.caseData.status || "unknown").toUpperCase() +
+    String(status).toUpperCase() +
     "</span></p>";
-  html += "<p>" + (state.caseData.summary || "") + "</p>";
+  html += "<p>" + summary + "</p>";
   html += "</div>";
 
   html += '<div class="stat-grid">';
@@ -50,12 +54,11 @@ export function renderDashboard() {
   html += '<div class="dashboard-columns">';
 
   html += '<div class="dashboard-panel"><h3>Recent evidence</h3>';
-  var recentEvidence = state.allEvidence.slice(-5).reverse();
+  const recentEvidence = [...state.allEvidence].slice(-5).reverse();
   if (recentEvidence.length === 0) {
     html += "<p>No evidence loaded yet.</p>";
   }
-  for (let e = 0; e < recentEvidence.length; e++) {
-    var ev = recentEvidence[e];
+  for (const ev of recentEvidence) {
     html +=
       '<div class="mini-list-item"><strong>' +
       ev.id +
@@ -70,12 +73,11 @@ export function renderDashboard() {
   html += "</div>";
 
   html += '<div class="dashboard-panel"><h3>Recent timeline events</h3>';
-  var recentTimeline = state.allTimeline.slice(-5).reverse();
+  const recentTimeline = [...state.allTimeline].slice(-5).reverse();
   if (recentTimeline.length === 0) {
     html += "<p>No timeline events loaded yet.</p>";
   }
-  for (let t = 0; t < recentTimeline.length; t++) {
-    var evt = recentTimeline[t];
+  for (const evt of recentTimeline) {
     html +=
       '<div class="mini-list-item"><strong>' +
       formatDate(evt.time) +
@@ -85,12 +87,12 @@ export function renderDashboard() {
   }
   html += "</div>";
 
-  html += "</div>"; // dashboard-columns
+  html += "</div>";
 
   container.innerHTML = html;
 }
 
-export function statCardHTML(value, label) {
+export function statCardHTML(value: number, label: string): string {
   return (
     '<div class="stat-card"><div class="stat-value">' +
     value +

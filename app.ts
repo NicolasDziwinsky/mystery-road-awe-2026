@@ -2,10 +2,11 @@ import {
   loadBookmarksFromStorage,
   loadNotesFromStorage,
   loadNoteAsync,
-} from "/localStorageHelpers.js";
-import { setupEventListeners } from "/eventListenerSetup.js";
-import loadAllData from "/dataLoading.js";
-import { saveCurrentNote } from "/views/evidence.js";
+} from "./localStorageHelpers.js";
+import { setupEventListeners } from "./eventListenerSetup.js";
+import loadAllData from "./dataLoading.js";
+import { saveCurrentNote } from "./views/evidence.js";
+import { handleHashChange } from "./navigation.js";
 
 // ---------------------------------------------------------------------
 // INIT

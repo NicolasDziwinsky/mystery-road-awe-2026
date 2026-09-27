@@ -2,8 +2,9 @@
 // GLOBAL STATE
 // ---------------------------------------------------------------------
 
-/** @type {import("./types/domain.ts").AppState} */
-export const state = {
+import type { AppState } from "./types/domain";
+
+export const state: AppState = {
   allEvidence: [],
   filteredEvidence: [],
   selectedEvidence: null,
