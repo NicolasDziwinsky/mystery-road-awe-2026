@@ -112,3 +112,98 @@ any essentially tells TypeScript:
 
 Don't type-check this value as strictly; allow me to do whatever I want with it.
 So although any would make the initial conversion faster, it would mostly hide the type problems rather than solve them.
+
+Demo 6
+
+1) Ambiguous field: how JavaScript got away with it, and what TypeScript forced
+The field I picked is personIds in the evidence and timeline data.
+
+In the JavaScript version, the code never validated the shape of the JSON at all. It simply did:
+
+fetch("/data/evidence.json")
+res.json()
+assign the result to state.allEvidence
+Because JavaScript is dynamically typed, the app accepted whatever was in the file. That meant a field like personIds could contain:
+
+canonical IDs such as "patch-vector"
+display names such as "Nova Byte"
+a mix of both in the same array
+That ambiguity was invisible because JS never forced a choice between:
+
+“this is always an ID”
+“this is always a display name”
+“this is a less-precise reference string”
+I modeled it explicitly in domain.ts as:
+
+personIds: string[]
+with a comment explaining it is a “reference” list, not a guaranteed strict ID list
+TypeScript forced the project to commit to one rule: this field is a list of strings, and the code must treat them as values that may be either IDs or names, not silently assume they are all one kind. In other words, the type made the ambiguity visible and documented it instead of leaving it implicit.
+
+2) A data-shape problem TypeScript cannot catch by itself
+Yes — there is a real class of problem here that TypeScript cannot catch on its own.
+
+A good example is a bad JSON file at runtime, such as:
+
+a timestamp that is invalid or missing
+a field present but with the wrong shape
+a person ID that does not match any actual record
+an evidence item whose locationIds contains a location that does not exist
+TypeScript checks your code and the types you wrote, but it does not validate the contents of runtime JSON files unless you explicitly parse and validate them.
+
+What you need in addition to types:
+
+runtime validation, usually with a schema validator
+for example: Zod, Valibot, or JSON Schema
+and ideally a guard function that checks fetched JSON before assigning it to state
+So the practical pattern is:
+
+TypeScript gives compile-time structure
+runtime validation gives runtime correctness
+In this app, the source data is external JSON, so a bad file can still get through even with perfect TypeScript types.
+
+3) interface vs type alias
+The difference is mostly about syntax and flexibility:
+
+interface is designed for object shapes
+type is more general and can also model unions, primitives, arrays, and other constructs
+Example:
+
+interface PersonRecord { ... }
+type PersonRecord = { ... }
+For object-like domain models, both are effectively capable of expressing the same shape.
+
+I used interface for the domain models in domain.ts, because:
+
+the models are object records
+they read clearly
+they are a natural fit for the app’s JSON structure
+Does it matter here? Not much. For this project, either one would work. The choice is mostly about readability and team preference. The important part is that the data model is explicit and consistent.
+
+In short: interface is better for “plain object shape,” while type is better when you need unions or more advanced modeling. For these JSON records, interface is perfectly appropriate.
+
+Demo 7
+
+1) One specific type error that actually mattered
+The clearest example was the DOM-null/type mismatch in the evidence and workspace views: TypeScript complained that getElementById(...) was returning HTMLElement | null, and then that HTMLElement did not have a .value property.
+
+That told us something important: the code was assuming that every element existed and was always the exact control type it was being treated as. In plain JavaScript, that often only causes a crash at runtime when the view isn’t present or the element is missing. TypeScript forced us to model the actual contract correctly: guard for nulls, narrow to HTMLInputElement/HTMLSelectElement, and only read .value after the check.
+
+This was not “just noise”; it exposed a real design issue in the app’s DOM assumptions.
+
+2) When is any the right call, and where did I draw the line?
+For a migration like this, any is reasonable only at the true boundary where the shape is genuinely unknown and you are deliberately deferring the model, such as untyped runtime data coming from a browser API or a legacy external source where the contract is not known yet.
+
+I did not use it for the app’s own domain data or DOM logic because those contracts were knowable and fixable:
+
+JSON files had a stable shape
+DOM elements had known roles
+localStorage payloads had a clear structure
+So the line was: use unknown plus validation or proper narrowing when the data is external/uncertain, and use explicit interfaces/types when the app is defining the contract itself. In this project, modeling the domain properly was the correct move, not hiding the issue with any.
+
+3) Did the migration reveal a genuine bug?
+Yes, it did reveal a real latent issue: the app sometimes assumed state.caseData was always present before rendering the dashboard. TypeScript flagged that as a possible null case. In JavaScript, it often “worked” because the load order happened to be correct during normal use, but it was still a fragile assumption. The correct fix was null-safe access and safe rendering, not just a type annotation.
+
+The other genuine issue was the “mixed identity” problem in the evidence model: personIds could be either canonical IDs or display names, depending on the source data. That was a hidden inconsistency in the original JS version. TypeScript forced us to decide on a contract and document the ambiguity instead of pretending it was uniform. That was not noise; it was a real data-model risk.
+
+So the migration did reveal real flaws, but they were not random compiler pedantry. They were cases where the app had been relying on assumptions that happened to work most of the time.
+
