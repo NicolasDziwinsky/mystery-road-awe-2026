@@ -6,8 +6,10 @@ export default function AppShell() {
     <>
       <Header />
 
-      <main>
-        <Outlet />
+      <main id="app" className="app-main">
+        <section id="view-dashboard" className="view active"> 
+          <Outlet />
+        </section>
       </main>
     </>
   );
