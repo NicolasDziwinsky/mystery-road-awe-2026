@@ -1,7 +1,10 @@
-export default function Evidence() {
+import { NormalText, ViewSection } from "../../components/index.ts";
+
+// Stub: migrated in Exercise 5 (needs useState / forms / reducer).
+export default function EvidencePage() {
   return (
-    <div>
-      <h1>Evidence</h1>
-    </div>
+    <ViewSection id="evidence" title="Evidence Catalogue">
+      <NormalText>This view is migrated in Exercise 5.</NormalText>
+    </ViewSection>
   );
 }

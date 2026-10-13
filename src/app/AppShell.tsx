@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Header from "./header.jsx";
+import Header from "./Header.tsx";
+import { LoadingGate } from "./LoadingGate.tsx";
 
 export default function AppShell() {
   return (
@@ -7,9 +8,9 @@ export default function AppShell() {
       <Header />
 
       <main id="app" className="app-main">
-        <section id="view-dashboard" className="view active"> 
+        <LoadingGate>
           <Outlet />
-        </section>
+        </LoadingGate>
       </main>
     </>
   );

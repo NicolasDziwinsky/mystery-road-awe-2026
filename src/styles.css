@@ -846,3 +846,34 @@ a:focus-visible {
     display: block;
   }
 }
+
+/* React version: router links rendered as <a> but styled like the old buttons */
+a.btn,
+a.nav-btn,
+a.tab-btn,
+a.evidence-link-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+a.nav-btn {
+  color: #e8ecf5;
+}
+
+a.nav-btn.active,
+a.tab-btn.active,
+a.btn-primary {
+  color: #fff;
+}
+
+.person-link {
+  color: inherit;
+}
+
+.key-demo-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}

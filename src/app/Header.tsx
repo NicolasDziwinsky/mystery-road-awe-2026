@@ -1,22 +1,42 @@
-import { RouteButton } from "./elements.jsx";
+import { NavLink } from "react-router-dom";
+import logo from "../assets/logo.svg";
+
+interface NavItem {
+  label: string;
+  to: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "Dashboard", to: "/dashboard" },
+  { label: "Evidence", to: "/evidence" },
+  { label: "People & Locations", to: "/team" },
+  { label: "Timeline", to: "/timeline" },
+  { label: "Workspace", to: "/workspace" },
+];
 
 export default function Header() {
   return (
-    <header class="app-header">
-      <div class="header-inner">
-        <div class="brand">
-            <img class="brand-logo" src="/src/assets/logo.svg" alt="Logo" /> 
-            <div>
-                <h1>Project ReMotion</h1>
-                <p class="subtitle">Investigate the failure of an AI-assisted rehabilitation robot.</p>
-            </div>
+    <header className="app-header">
+      <div className="header-inner">
+        <div className="brand">
+          <img className="brand-logo" src={logo} alt="Logo" />
+          <div>
+            <h1>Project ReMotion</h1>
+            <p className="subtitle">
+              Investigate the failure of an AI-assisted rehabilitation robot.
+            </p>
+          </div>
         </div>
-        <nav class="main-nav" aria-label="Main navigation">
-            <RouteButton label="Dashboard" targetLocation="/dashboard" />
-            <RouteButton label="Evidence" targetLocation="/evidence" />
-            <RouteButton label="People & Locations" targetLocation="/people-locations" />
-            <RouteButton label="Timeline" targetLocation="/timeline" />
-            <RouteButton label="Workspace" targetLocation="/workspace" />
+        <nav className="main-nav" aria-label="Main navigation">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) => (isActive ? "nav-btn active" : "nav-btn")}
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </nav>
       </div>
     </header>

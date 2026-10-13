@@ -1,67 +1,18 @@
-import { useEffect, useState } from "react";
 import {
-  H2Text,
   IntroCard,
-  HowToItem,
+  MiniListItem,
   Panel,
   StatCard,
   StatusBadge,
-  MiniListItem,
-} from "../elements.jsx";
-import { state } from "../../data.js";
-import { formatDate } from "../../lookupHelpers.js";
+  ViewSection,
+} from "../../components/index.ts";
+import { state } from "../../../data.ts";
+import { formatDate } from "../../../lookupHelpers.ts";
+import { HowToItem } from "./HowToItem.tsx";
 
-async function fetchJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status}`);
-  }
-  return response.json();
-}
-
-export default function Dashboard() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function loadDashboardData() {
-      try {
-        const [caseData, people, locations, evidence, timeline] = await Promise.all([
-          fetchJson("/data/case.json"),
-          fetchJson("/data/people.json"),
-          fetchJson("/data/locations.json"),
-          fetchJson("/data/evidence.json"),
-          fetchJson("/data/timeline.json"),
-        ]);
-
-        if (!isMounted) return;
-
-        state.caseData = caseData;
-        state.allPeople = people;
-        state.allLocations = locations;
-        state.allEvidence = evidence;
-        state.filteredEvidence = [...evidence];
-        state.allTimeline = timeline;
-        setLoading(false);
-        setError("");
-      } catch (err) {
-        console.error("Dashboard data load failed", err);
-        if (isMounted) {
-          setLoading(false);
-          setError("The case data could not be loaded.");
-        }
-      }
-    }
-
-    loadDashboardData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
+// Feature component: reads the shared state and derives the numbers.
+// LoadingGate (app/) guarantees the data is loaded before this renders.
+export default function DashboardPage() {
   const caseData = state.caseData ?? {
     title: "Case",
     status: "unknown",
@@ -69,7 +20,7 @@ export default function Dashboard() {
   };
 
   const reviewedCount = state.allEvidence.filter(
-    (item) => String(item.status ?? "").toLowerCase() === "reviewed"
+    (item) => String(item.status ?? "").toLowerCase() === "reviewed",
   ).length;
 
   const progressPct =
@@ -80,32 +31,8 @@ export default function Dashboard() {
   const recentEvidence = [...state.allEvidence].slice(-5).reverse();
   const recentTimeline = [...state.allTimeline].slice(-5).reverse();
 
-  if (loading) {
-    return (
-      <section id="view-dashboard" className="view active">
-        <H2Text>Case Dashboard</H2Text>
-        <Panel title="Loading case data">
-          <p>Loading investigation files…</p>
-        </Panel>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section id="view-dashboard" className="view active">
-        <H2Text>Case Dashboard</H2Text>
-        <Panel title="Unable to load data">
-          <p>{error}</p>
-        </Panel>
-      </section>
-    );
-  }
-
   return (
-    <section id="view-dashboard" className="view active">
-      <H2Text>Case Dashboard</H2Text>
-
+    <ViewSection id="dashboard" title="Case Dashboard">
       <IntroCard
         title="How to use this portal"
         description="Everything gathered on the case so far is organised into four working views. Use the navigation bar at the top to move between them at any time."
@@ -123,7 +50,7 @@ export default function Dashboard() {
             title="People & Locations"
             description="Read profiles and statements from the six team members involved, and look up the six key locations in the investigation."
             buttonLabel="Go to People & Locations"
-            targetLocation="/people-locations"
+            targetLocation="/team/people"
           />
           <HowToItem
             number={3}
@@ -161,10 +88,7 @@ export default function Dashboard() {
 
         <Panel title="Review progress">
           <div className="progress-bar-outer">
-            <div
-              className="progress-bar-inner"
-              style={{ width: `${progressPct}%` }}
-            />
+            <div className="progress-bar-inner" style={{ width: `${progressPct}%` }} />
           </div>
           <p>{progressPct}% of evidence reviewed</p>
         </Panel>
@@ -191,7 +115,7 @@ export default function Dashboard() {
             ) : (
               recentTimeline.map((event) => (
                 <MiniListItem
-                  key={event.id || `${event.time}-${event.title}`}
+                  key={event.id}
                   primary={formatDate(event.time)}
                   secondary={event.title}
                 />
@@ -200,6 +124,6 @@ export default function Dashboard() {
           </Panel>
         </div>
       </div>
-    </section>
+    </ViewSection>
   );
 }
