@@ -145,3 +145,13 @@ export function MiniListItem({ primary, secondary, badge }) {
   );
 }
 
+interface PeopleCardImageProps {
+  dateString: string;
+
+export function PeopleCardImage(dateString: String) {
+  return (
+    <div className="people-card-image">
+      <img src={dateString} alt="Profile" />
+    </div>
+  );
+}
