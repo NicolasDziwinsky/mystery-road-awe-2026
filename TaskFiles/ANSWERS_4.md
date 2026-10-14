@@ -37,10 +37,6 @@ src/
     evidence/, workspace/ stubs (Exercise 5)
 ```
 
-> **Known leftover:** `src/elements.jsx` (the old Exercise 3 file) is still in the repo. Nothing
-> imports it, but it contains TypeScript syntax in a `.jsx` file, so `tsc --noEmit` (and therefore
-> `npm run build`) currently fails on it. Delete it before presenting: `git rm src/elements.jsx`.
-
 ---
 
 ## Demo 1 — JSX, function components, typed props, composition & children
@@ -120,9 +116,7 @@ to one of these and run `npx tsc --noEmit` (or just look at the red line in VS C
 | `person={location}` | `Type 'LocationRecord' is missing the following properties from type 'PersonRecord': role, speciality, responsibilities, statement, and 2 more.` |
 | `persn={person}` (typo) | `Property 'persn' does not exist on type 'IntrinsicAttributes & PersonCardProps'. Did you mean 'person'?` |
 
-> **Careful:** while `src/elements.jsx` still exists, `npx tsc --noEmit` stops at that file's syntax
-> errors and shows **no** type errors at all. Delete it first, or show the red underline in VS Code
-> (the editor checks each file on its own).
+> Both work: the red underline in VS Code (hover for the message) and `npx tsc --noEmit` in the terminal.
 
 Without types, all of these would only show up at runtime as "undefined" on the page or as a crash.
 With types they are caught **at the call site, before the app runs** (book 15.5).
@@ -672,8 +666,7 @@ const events = state.allTimeline
 - All views open directly by URL, also after a reload (the data is loaded by `LoadingGate`, not by
   the Dashboard): `/react/dashboard`, `/react/team/people`, `/react/team/locations`,
   `/react/team/people/<id>`, `/react/timeline?person=<id>`.
-- `npm run lint` passes. `tsc --noEmit` passes for all files in use, **but fails on the unused
-  leftover `src/elements.jsx`**. Delete it (see the note at the top) before showing `npm run build`.
+- `npm run lint` and `tsc --noEmit` pass. The old unused `src/elements.jsx` was deleted.
 
 ### Q: Why is reading a query param once still within the "no state" rule? What would cross the line?
 
